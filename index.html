@@ -10,12 +10,32 @@
         <meta name="description" content="">
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+        <!-- Icono de la pestaña -->
+        <link rel="icon" href="img/DP.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/DP.ico" type="image/x-icon">
+
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/font-awesome.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/templatemo-style.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+<style>
+            body {
+                -webkit-user-select: none; /* Safari */
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+/Edge */
+                user-select: none; /* Standard */
+            }
+        </style>
+        <script>
+            document.addEventListener('contextmenu', event => event.preventDefault());
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey && (event.key === 'c' || event.key === 'u' || event.key === 's' || event.key === 'p' || event.key === 'a')) {
+                    event.preventDefault();
+                }
+            });
+        </script>
+        
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -43,6 +63,7 @@
                         <li><a href="#top"><i class="fa fa-home"></i>Home</a></li>
                         <li><a href="#about"><i class="fa fa-user"></i>About Me</a></li>
                         <li><a href="#projects"><i class="fa fa-newspaper-o"></i>My projects</a></li>
+                        <li><a href="#contact"><i class="fa fa-envelope"></i>Contact Me</a></li>
                       <!--  <li><a href="#contact"><i class="fa fa-envelope"></i>Contact Me</a></li>-->
                     </ul>
                 </div>
@@ -57,9 +78,10 @@
                 </div>
                 <h3 class="profile-title">William Martínez</h3>
                 <p class="profile-description">Desarrollador</p>
+
                <!-- Contador de Visitas -->
-               <a title=""><img src="https://counter4.optistats.ovh/private/contadorvisitasgratis.php?c=msy7netx53ntl3pp6l151da1ufd8rcfr" border="0" title="" alt=""></a>
-                    
+              <!-- <a title=""><img src="https://counter4.optistats.ovh/private/contadorvisitasgratis.php?c=msy7netx53ntl3pp6l151da1ufd8rcfr" border="0" title="" alt=""></a>
+            -->
                     <!-- Fin Contador de Visitas -->
 
             </div> <!-- top-section -->
@@ -68,14 +90,15 @@
                     <li><a href="#top"><i class="fa fa-globe"></i>Bienvenido</a></li>
                     <li><a href="#about"><i class="fa fa-pencil"></i>Acerca de Mí</a></li>
                     <li><a href="#projects"><i class="fa fa-paperclip"></i>Mis Proyectos</a></li>
+                    <li><a href="#contact"><i class="fa fa-link"></i>Contacta conmigo</a></li>
                     <!--<li><a href="#contact"><i class="fa fa-link"></i>Contacta conmigo</a></li>-->
                 </ul>
             </div> <!-- .main-navigation -->
             <div class="social-icons">
                 <ul>
-                    <li><a href="https://www.facebook.com/Pendragon988"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://www.facebook.com/Pendragon988" target="_blank"><i class="fa fa-facebook"></i></a></li>
                     <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/pendragon503/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
                     <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                     <li><a href="#"><i class="fa fa-youtube"></i></a></li>
                     <li><a href="#"><i class="fa fa-rss"></i></a></li>
@@ -103,12 +126,18 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="widget-title">APRENDE SOBRE MÍ</h4>
-                            <div class="about-image">
+                            <!--<div class="about-image">
                                 <img src="img/8.jpg" alt="about me">
-                            </div>
-                            <p>Como consultor de sistemas y estudiante de ingeniería en sistemas informáticos, mi labor se centra en comprender las necesidades tecnológicas de las organizaciones para diseñar, implementar y optimizar soluciones efectivas. <br> Trabajo estrechamente con los clientes para analizar sus procesos, desarrollar estrategias personalizadas y asegurar la adopción exitosa de nuevos sistemas, proporcionando capacitación y soporte continuo. <br> Además, me mantengo actualizado con las últimas tendencias y prácticas de seguridad para proteger la integridad de los datos y garantizar el máximo rendimiento de las soluciones tecnológicas implementadas.</p>
+                            </div>-->
+                            <p>Como joven profesional en ingeniería en sistemas informáticos, me dedico a comprender las necesidades tecnológicas de las organizaciones para diseñar, implementar y optimizar soluciones efectivas.
+                            <br> Mi enfoque está en colaborar estrechamente con los clientes para analizar sus procesos, desarrollar estrategias personalizadas y asegurar una adopción exitosa de nuevos sistemas. Ofrezco capacitación y soporte continuo, manteniéndome siempre al tanto de las últimas tendencias y prácticas en seguridad para proteger los datos y maximizar el rendimiento de las soluciones tecnológicas.<br>
+                            <br> En mi tiempo libre, me apasiona la música, donde disfruto tocando varios instrumentos y cantando. Además, el ensamblaje y las mejoras en mi setup de PC son mi pasatiempo favorito, permitiéndome combinar mi interés por la tecnología con mi creatividad.
+                            <br> Me encanta seguir formándome a través de amplias certificaciones, siempre en busca de nuevas maneras de enriquecer mis habilidades.
+                            <br><br> Actualmente, estoy en busca de nuevas oportunidades que me permitan enfrentar desafíos diversos y seguir creciendo.
+                            <br> Estoy abierto a explorar diferentes campos y aprovechar cada experiencia para desarrollarme profesionalmente y contribuir de manera significativa.</p>
                             <hr>
                             <h4 class="widget-title">Algunas de mis Certificaciones</h4>
+                            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="4bc31818-6594-4b97-8cd6-cd0b02f01426" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
                             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="3b5fc477-8b28-46b1-bd40-54fae3476c0a" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
                             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="9aaef716-8001-49b5-8d5f-3b66ee325254" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
                             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="554d8790-c97e-4b2f-a763-071d33ea80a8" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
@@ -129,8 +158,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="widget-title">Mi Trayectoria en Proyectos</h4>
-                            <p>A lo largo de mi trayectoria académica y profesional, he adquirido una rica experiencia en diversas áreas, desde la consultoría de sistemas y la administración de redes hasta la locución de radio. <br>
-                                Mi enfoque se centra en la creación de soluciones innovadoras y eficientes, siempre buscando mejorar y aprender nuevas tecnologías. <br>Soy una persona curiosa y proactiva, con un fuerte compromiso con la excelencia y el desarrollo continuo. </p>
+                            <p>A lo largo de mi trayectoria académica y profesional, he adquirido una rica experiencia en diversas áreas, desde la consultoría de sistemas y la administración de redes hasta la locución de radio. Mi enfoque se centra en la creación de soluciones innovadoras y eficientes, siempre buscando mejorar y aprender nuevas tecnologías. 
+                                <br>
+                            <br>--- Soy una persona curiosa y proactiva, con un fuerte compromiso con la excelencia y el desarrollo continuo. ---</p>
+                                <br>
+                            <p>Además, mi pasión por la música y el ensamblaje de PCs no solo enriquece mi vida personal, sino que también potencia mi creatividad y resolución de problemas en el ámbito profesional. 
+                                <br><br> <strong>--- Si tienes un trabajo o reto, estoy listo para abordarlo con entusiasmo y dedicación. ¡Hagámoslo! ---</strong></p>
+
+
                         </div>
                     </div>
                     <div class="row projects-holder">
@@ -208,37 +243,22 @@
                    <!--  <hr> -->
 
                     <!-- CONTACT -->
-                 <!--   <div class="page-section" id="contact">
+                    <div class="page-section" id="contact">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4 class="widget-title">PLACE TO TALK WITH ME</h4>
-                            <p>Vestibulum ac iaculis erat, in semper dolor. Maecenas et lorem molestie, maximus justo dignissim, cursus nisl. Nullam at ante quis ex pharetra pulvinar quis id dolor. Integer lorem odio, euismod ut sem sit amet, imperdiet condimentum diam.</p>
-                        </div>
+                            <h4 class="widget-title">Ponte en contacto</h4>
+                            <p>Si tienes alguna consulta, duda o simplemente quieres charlar, no dudes en ponerte en contacto conmigo.
+                                <br> Estoy aquí para ayudarte y responder cualquier pregunta que puedas tener.
+                                <br> ¡Espero tu mensaje para poder colaborar y ofrecerte la mejor solución posible!</p>
+                                <br>
+
                     </div>
-                    <div class="row">
-                        <form action="#" method="post" class="contact-form">
-                            <fieldset class="col-md-4 col-sm-6">
-                                <input type="text" id="your-name" placeholder="Your Name...">
-                            </fieldset>
-                            <fieldset class="col-md-4 col-sm-6">
-                                <input type="email" id="email" placeholder="Your Email...">
-                            </fieldset>
-                            <fieldset class="col-md-4 col-sm-12">
-                                <input type="text" id="your-subject" placeholder="Subject...">
-                            </fieldset>
-                            <fieldset class="col-md-12 col-sm-12">
-                                <textarea name="message" id="message" cols="30" rows="6" placeholder="Leave your message..."></textarea>
-                            </fieldset>
-                            <fieldset class="col-md-12 col-sm-12">
-                                <input type="submit" class="button big default" value="Send Message">
-                            </fieldset>
-                        </form>
-                    </div> 
-                    </div>
-                    <hr>-->
-                    <div class="about-image">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScgH6uaRnJYMO50D-2TDFmGQz5gaayqhDYnve2Z5j6mRG7jEw/viewform?embedded=true" width="958" height="958" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>   
+                </div>
+                    <hr>
+                     <!--<div class="about-image">
                         <img src="img/8.jpg" alt="about me">
-                    </div>
+                    </div> -->
                          <!-- .contact-form -->
                     <div class="row" id="footer">
                         <div class="col-md-12 text-center">
