@@ -24,6 +24,7 @@
     });
 
     var snakeCanvas = document.querySelector('.credential-snake');
+    var forestCameo = document.querySelector('.forest-cameo');
 
     if (snakeCanvas && snakeCanvas.getContext) {
         var snakeContext = snakeCanvas.getContext('2d');
@@ -201,6 +202,90 @@
         });
         watchSnakeQuery(desktopSnakeQuery);
         updateSnakeState();
+    }
+
+    if (forestCameo) {
+        var forestCameoTimer = null;
+        var forestCameoActive = false;
+        var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        function supportsForestCameo() {
+            return window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 901px)').matches && !reducedMotionQuery.matches;
+        }
+
+        function clearForestCameoTimer() {
+            if (forestCameoTimer) {
+                window.clearTimeout(forestCameoTimer);
+                forestCameoTimer = null;
+            }
+        }
+
+        function queueForestCameo() {
+            clearForestCameoTimer();
+            if (!supportsForestCameo()) {
+                forestCameo.classList.remove('is-visible');
+                forestCameoActive = false;
+                return;
+            }
+            forestCameoTimer = window.setTimeout(playForestCameo, 3000 + Math.random() * 2000);
+        }
+
+        function randomBetween(min, max) {
+            return min + (Math.random() * (max - min));
+        }
+
+        function setForestCameoPosition() {
+            var viewportWidth = Math.max(window.innerWidth || 0, document.documentElement.clientWidth || 0);
+            var viewportHeight = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0);
+            var cameoWidth = Math.min(Math.max(Math.round(viewportWidth * 0.46), 280), 520);
+            var cameoHeight = Math.round(cameoWidth * 0.92);
+            var topLimit = Math.max(24, viewportHeight - cameoHeight - 24);
+            var top = Math.round(randomBetween(24, topLimit));
+            var startFromLeft = Math.random() > 0.5;
+            var travel = Math.round(viewportWidth + cameoWidth + 80);
+            var left = startFromLeft ? -Math.round(cameoWidth * 1.05) : Math.round(viewportWidth + (cameoWidth * 0.05));
+            if (Math.random() > 0.5) {
+                travel *= -1;
+            }
+
+            forestCameo.style.setProperty('--cameo-left', left + 'px');
+            forestCameo.style.setProperty('--cameo-top', top + 'px');
+            forestCameo.style.setProperty('--cameo-travel', travel + 'px');
+            forestCameo.style.setProperty('--cameo-duration', (2.6 + Math.random() * 0.5) + 's');
+        }
+
+        function playForestCameo() {
+            if (!supportsForestCameo() || forestCameoActive) {
+                queueForestCameo();
+                return;
+            }
+            forestCameoActive = true;
+            setForestCameoPosition();
+            forestCameo.classList.remove('is-visible');
+            void forestCameo.offsetWidth;
+            forestCameo.classList.add('is-visible');
+
+            window.setTimeout(function() {
+                forestCameo.classList.remove('is-visible');
+                forestCameoActive = false;
+                queueForestCameo();
+            }, 3200);
+        }
+
+        function watchReducedMotion(query) {
+            if (query.addEventListener) {
+                query.addEventListener('change', queueForestCameo);
+            } else if (query.addListener) {
+                query.addListener(queueForestCameo);
+            }
+        }
+
+        watchReducedMotion(reducedMotionQuery);
+        window.addEventListener('load', function() {
+            window.setTimeout(playForestCameo, 1200);
+            queueForestCameo();
+        });
+        window.addEventListener('resize', queueForestCameo);
     }
 
 })(jQuery);

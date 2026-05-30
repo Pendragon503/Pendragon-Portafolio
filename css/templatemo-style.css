@@ -1361,6 +1361,175 @@ h3.profile-title {
   opacity: 0.28;
 }
 
+.forest-cameo {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
+.forest-cameo.is-visible {
+  animation: forest-cameo-pass var(--cameo-duration, 3.6s) cubic-bezier(0.25, 0.75, 0.2, 1) forwards;
+}
+
+.forest-cameo__track {
+  position: absolute;
+  left: var(--cameo-left, -42vw);
+  top: var(--cameo-top, 30vh);
+  width: min(46vw, 520px);
+  height: auto;
+  animation: forest-cameo-bob 0.55s ease-in-out infinite;
+  transform-origin: 50% 72%;
+  will-change: transform;
+}
+
+.forest-cameo__figure {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 18px 26px rgba(3, 17, 22, 0.42)) drop-shadow(0 0 16px rgba(86, 201, 255, 0.25));
+}
+
+.forest-cameo__body {
+  fill: #d8dde1;
+  stroke: #1f2b33;
+  stroke-width: 4.5;
+}
+
+.forest-cameo__belly {
+  fill: #ffffff;
+  opacity: 0.92;
+}
+
+.forest-cameo__ear,
+.forest-cameo__arm,
+.forest-cameo__leg,
+.forest-cameo__leaf {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.forest-cameo__ear,
+.forest-cameo__arm,
+.forest-cameo__leg {
+  stroke: #1f2b33;
+  stroke-width: 6.5;
+}
+
+.forest-cameo__eye,
+.forest-cameo__nose,
+.forest-cameo__mouth,
+.forest-cameo__whisker,
+.forest-cameo__marks,
+.forest-cameo__umbrella-handle,
+.forest-cameo__umbrella-rib,
+.forest-cameo__umbrella-tip {
+  fill: #1f2b33;
+}
+
+.forest-cameo__leaf {
+  stroke: #4dbf7b;
+  stroke-width: 5;
+}
+
+.forest-cameo__mouth,
+.forest-cameo__whisker,
+.forest-cameo__marks,
+.forest-cameo__umbrella-handle,
+.forest-cameo__umbrella-rib,
+.forest-cameo__umbrella-tip {
+  fill: none;
+  stroke: #1f2b33;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.forest-cameo__umbrella-rib {
+  stroke-width: 5.5;
+}
+
+.forest-cameo__umbrella-handle {
+  stroke-width: 6.5;
+}
+
+.forest-cameo__umbrella-tip {
+  stroke: #1f2b33;
+  stroke-width: 2;
+}
+
+.forest-cameo__mouth {
+  stroke-width: 5;
+}
+
+.forest-cameo__whisker {
+  stroke-width: 3.5;
+}
+
+.forest-cameo__marks {
+  stroke-width: 4;
+}
+
+.forest-cameo__shadow {
+  fill: rgba(9, 31, 39, 0.18);
+}
+
+@keyframes forest-cameo-pass {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.92);
+  }
+  6% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translate3d(var(--cameo-travel, 130vw), 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--cameo-travel, 130vw) * 1.02), 0, 0) scale(0.92);
+  }
+}
+
+.forest-cameo.is-visible .forest-cameo__figure {
+  animation: forest-cameo-pop 0.2s ease-out both;
+}
+
+@keyframes forest-cameo-bob {
+  0%, 100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+@keyframes forest-cameo-pop {
+  0% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .forest-cameo,
+  .forest-cameo__track {
+    animation: none !important;
+  }
+}
+
 .credential-highlights {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1688,6 +1857,10 @@ h3.profile-title {
   }
 
   .credential-snake {
+    display: none;
+  }
+
+  .forest-cameo {
     display: none;
   }
 
