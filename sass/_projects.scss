@@ -16,6 +16,8 @@
 	position: relative;
 	img {
 		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
 		display: block;
 	}
 	&:hover {
@@ -35,7 +37,7 @@
 	left: 0;
 	background: rgba($black, 0.9);
 	opacity: 0;
-	visibility: 0;
+	visibility: hidden;
 	@include transition(all, 200ms, linear);
 	.inside {
 		position: absolute;
