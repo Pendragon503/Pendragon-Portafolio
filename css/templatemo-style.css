@@ -1351,14 +1351,14 @@ h3.profile-title {
 }
 
 .credential-snake {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   display: none;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  opacity: 0.42;
+  opacity: 0.28;
 }
 
 .credential-highlights {

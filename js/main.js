@@ -33,9 +33,10 @@
         var snakeHeight = 0;
         var snakeRunning = false;
         var snakeFrame = null;
+        var snakeLastFrame = 0;
         var snakeTarget = { x: 0, y: 0, active: false };
         var snakeSegments = [];
-        var snakeCount = 28;
+        var snakeCount = 18;
 
         function clamp(value, min, max) {
             return Math.min(max, Math.max(min, value));
@@ -50,19 +51,17 @@
             for (var i = 0; i < snakeCount; i++) {
                 snakeSegments.push({
                     x: snakeWidth * 0.5 - (i * 12),
-                    y: Math.max(130, snakeHeight * 0.18) + Math.sin(i * 0.8) * 18
+                    y: Math.max(90, snakeHeight * 0.22) + Math.sin(i * 0.8) * 16
                 });
             }
             snakeTarget.x = snakeWidth * 0.5;
-            snakeTarget.y = Math.max(130, snakeHeight * 0.18);
+            snakeTarget.y = Math.max(90, snakeHeight * 0.22);
         }
 
         function resizeSnake() {
-            var docElement = document.documentElement;
-            var body = document.body;
             snakeDpr = Math.min(window.devicePixelRatio || 1, 1.5);
-            snakeWidth = Math.max(1, Math.round(Math.max(docElement.scrollWidth, body ? body.scrollWidth : 0, docElement.clientWidth)));
-            snakeHeight = Math.max(1, Math.round(Math.max(docElement.scrollHeight, body ? body.scrollHeight : 0, docElement.clientHeight)));
+            snakeWidth = Math.max(1, Math.round(window.innerWidth || document.documentElement.clientWidth || 1));
+            snakeHeight = Math.max(1, Math.round(window.innerHeight || document.documentElement.clientHeight || 1));
             snakeCanvas.width = Math.round(snakeWidth * snakeDpr);
             snakeCanvas.height = Math.round(snakeHeight * snakeDpr);
             snakeCanvas.style.width = snakeWidth + 'px';
@@ -72,8 +71,10 @@
         }
 
         function setSnakeTarget(event) {
-            var x = event.pageX;
-            var y = event.pageY;
+            var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || 0;
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+            var x = event.pageX - scrollLeft;
+            var y = event.pageY - scrollTop;
             snakeTarget.active = x >= 0 && x <= snakeWidth && y >= 0 && y <= snakeHeight;
             if (snakeTarget.active) {
                 snakeTarget.x = x;
@@ -86,10 +87,14 @@
                 return;
             }
 
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-            var viewportCenter = scrollTop + (window.innerHeight * 0.46);
-            var idleY = clamp(viewportCenter + Math.sin(time * 0.0014) * 42, 90, snakeHeight - 90);
-            var idleX = clamp(snakeWidth * 0.5 + Math.cos(time * 0.0009) * snakeWidth * 0.32, 120, snakeWidth - 120);
+            if (time - snakeLastFrame < 33) {
+                snakeFrame = window.requestAnimationFrame(drawSnake);
+                return;
+            }
+            snakeLastFrame = time;
+
+            var idleY = clamp((snakeHeight * 0.5) + Math.sin(time * 0.0014) * snakeHeight * 0.24, 72, snakeHeight - 72);
+            var idleX = clamp(snakeWidth * 0.5 + Math.cos(time * 0.0009) * snakeWidth * 0.26, 100, snakeWidth - 100);
             var nextX = snakeTarget.active ? snakeTarget.x : idleX;
             var nextY = snakeTarget.active ? snakeTarget.y : idleY;
             var head = snakeSegments[0];
@@ -112,30 +117,30 @@
             for (var p = 1; p < snakeSegments.length; p++) {
                 snakeContext.lineTo(snakeSegments[p].x, snakeSegments[p].y);
             }
-            snakeContext.shadowColor = 'rgba(141, 240, 198, 0.55)';
-            snakeContext.shadowBlur = 18;
-            snakeContext.strokeStyle = 'rgba(141, 240, 198, 0.2)';
-            snakeContext.lineWidth = 18;
+            snakeContext.shadowColor = 'rgba(8, 35, 64, 0.38)';
+            snakeContext.shadowBlur = 8;
+            snakeContext.strokeStyle = 'rgba(8, 35, 64, 0.38)';
+            snakeContext.lineWidth = 12;
             snakeContext.stroke();
-            snakeContext.shadowBlur = 9;
-            snakeContext.strokeStyle = 'rgba(242, 179, 61, 0.56)';
-            snakeContext.lineWidth = 6;
+            snakeContext.shadowBlur = 4;
+            snakeContext.strokeStyle = 'rgba(86, 201, 255, 0.42)';
+            snakeContext.lineWidth = 4;
             snakeContext.stroke();
             snakeContext.shadowBlur = 0;
             snakeContext.strokeStyle = 'rgba(255, 255, 255, 0.65)';
-            snakeContext.lineWidth = 2;
+            snakeContext.lineWidth = 1.5;
             snakeContext.stroke();
 
             for (var s = snakeSegments.length - 1; s >= 0; s--) {
                 var segment = snakeSegments[s];
                 var alpha = 1 - (s / snakeSegments.length);
-                var radius = s === 0 ? 13 : Math.max(4, 10 - s * 0.18);
+                var radius = s === 0 ? 11 : Math.max(3.5, 8 - s * 0.16);
                 snakeContext.beginPath();
                 snakeContext.arc(segment.x, segment.y, radius, 0, Math.PI * 2);
-                snakeContext.fillStyle = 'rgba(141, 240, 198, ' + (0.08 + alpha * 0.34) + ')';
+                snakeContext.fillStyle = 'rgba(8, 35, 64, ' + (0.14 + alpha * 0.3) + ')';
                 snakeContext.fill();
-                snakeContext.strokeStyle = 'rgba(242, 179, 61, ' + (0.1 + alpha * 0.38) + ')';
-                snakeContext.lineWidth = s === 0 ? 2.5 : 1.2;
+                snakeContext.strokeStyle = 'rgba(86, 201, 255, ' + (0.12 + alpha * 0.28) + ')';
+                snakeContext.lineWidth = s === 0 ? 2 : 1;
                 snakeContext.stroke();
             }
 
@@ -143,7 +148,7 @@
             snakeContext.beginPath();
             snakeContext.arc(head.x + 4, head.y - 4, 2.1, 0, Math.PI * 2);
             snakeContext.arc(head.x - 4, head.y - 4, 2.1, 0, Math.PI * 2);
-            snakeContext.fillStyle = '#f2b33d';
+            snakeContext.fillStyle = '#56c9ff';
             snakeContext.fill();
 
             snakeFrame = window.requestAnimationFrame(drawSnake);
