@@ -24,7 +24,7 @@
     });
 
     var snakeCanvas = document.querySelector('.credential-snake');
-    var forestCameo = document.querySelector('.forest-cameo');
+    var stormOverlay = document.querySelector('.storm-overlay');
 
     if (snakeCanvas && snakeCanvas.getContext) {
         var snakeContext = snakeCanvas.getContext('2d');
@@ -204,88 +204,79 @@
         updateSnakeState();
     }
 
-    if (forestCameo) {
-        var forestCameoTimer = null;
-        var forestCameoActive = false;
-        var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (stormOverlay) {
+        var stormReducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var stormTimer = null;
+        var stormStrikeTimer = null;
 
-        function supportsForestCameo() {
-            return window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 901px)').matches && !reducedMotionQuery.matches;
-        }
-
-        function clearForestCameoTimer() {
-            if (forestCameoTimer) {
-                window.clearTimeout(forestCameoTimer);
-                forestCameoTimer = null;
-            }
-        }
-
-        function queueForestCameo() {
-            clearForestCameoTimer();
-            if (!supportsForestCameo()) {
-                forestCameo.classList.remove('is-visible');
-                forestCameoActive = false;
-                return;
-            }
-            forestCameoTimer = window.setTimeout(playForestCameo, 3000 + Math.random() * 2000);
-        }
-
-        function randomBetween(min, max) {
+        function randomStormBetween(min, max) {
             return min + (Math.random() * (max - min));
         }
 
-        function setForestCameoPosition() {
-            var viewportWidth = Math.max(window.innerWidth || 0, document.documentElement.clientWidth || 0);
-            var viewportHeight = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0);
-            var cameoWidth = Math.min(Math.max(Math.round(viewportWidth * 0.46), 280), 520);
-            var cameoHeight = Math.round(cameoWidth * 0.92);
-            var topLimit = Math.max(24, viewportHeight - cameoHeight - 24);
-            var top = Math.round(randomBetween(24, topLimit));
-            var startFromLeft = Math.random() > 0.5;
-            var travel = Math.round(viewportWidth + cameoWidth + 80);
-            var left = startFromLeft ? -Math.round(cameoWidth * 1.05) : Math.round(viewportWidth + (cameoWidth * 0.05));
-            if (Math.random() > 0.5) {
-                travel *= -1;
-            }
-
-            forestCameo.style.setProperty('--cameo-left', left + 'px');
-            forestCameo.style.setProperty('--cameo-top', top + 'px');
-            forestCameo.style.setProperty('--cameo-travel', travel + 'px');
-            forestCameo.style.setProperty('--cameo-duration', (2.6 + Math.random() * 0.5) + 's');
+        function isStormReduced() {
+            return stormReducedQuery.matches;
         }
 
-        function playForestCameo() {
-            if (!supportsForestCameo() || forestCameoActive) {
-                queueForestCameo();
-                return;
+        function clearStormTimers() {
+            if (stormTimer) {
+                window.clearTimeout(stormTimer);
+                stormTimer = null;
             }
-            forestCameoActive = true;
-            setForestCameoPosition();
-            forestCameo.classList.remove('is-visible');
-            void forestCameo.offsetWidth;
-            forestCameo.classList.add('is-visible');
 
-            window.setTimeout(function() {
-                forestCameo.classList.remove('is-visible');
-                forestCameoActive = false;
-                queueForestCameo();
-            }, 3200);
+            if (stormStrikeTimer) {
+                window.clearTimeout(stormStrikeTimer);
+                stormStrikeTimer = null;
+            }
         }
 
-        function watchReducedMotion(query) {
+        function endStormStrike() {
+            stormOverlay.classList.remove('is-striking');
+        }
+
+        function queueStormStrike(delay) {
+            if (stormTimer) {
+                window.clearTimeout(stormTimer);
+                stormTimer = null;
+            }
+
+            stormTimer = window.setTimeout(playStormStrike, delay || randomStormBetween(2600, isStormReduced() ? 12800 : 8200));
+        }
+
+        function playStormStrike() {
+            stormOverlay.style.setProperty('--storm-x', randomStormBetween(18, 88).toFixed(1) + '%');
+            stormOverlay.style.setProperty('--storm-y', randomStormBetween(0, 24).toFixed(1) + '%');
+            stormOverlay.style.setProperty('--storm-rotate', randomStormBetween(-18, 16).toFixed(1) + 'deg');
+            stormOverlay.style.setProperty('--storm-scale', randomStormBetween(0.78, isStormReduced() ? 0.98 : 1.18).toFixed(2));
+            stormOverlay.classList.remove('is-striking');
+            void stormOverlay.offsetWidth;
+            stormOverlay.classList.add('is-striking');
+
+            if (stormStrikeTimer) {
+                window.clearTimeout(stormStrikeTimer);
+            }
+
+            stormStrikeTimer = window.setTimeout(endStormStrike, isStormReduced() ? 460 : 760);
+            queueStormStrike(randomStormBetween(isStormReduced() ? 7200 : 3200, isStormReduced() ? 16800 : 9400));
+        }
+
+        function updateStormState() {
+            clearStormTimers();
+            endStormStrike();
+
+            queueStormStrike(randomStormBetween(isStormReduced() ? 1800 : 900, isStormReduced() ? 5200 : 2800));
+        }
+
+        function watchStormQuery(query) {
             if (query.addEventListener) {
-                query.addEventListener('change', queueForestCameo);
+                query.addEventListener('change', updateStormState);
             } else if (query.addListener) {
-                query.addListener(queueForestCameo);
+                query.addListener(updateStormState);
             }
         }
 
-        watchReducedMotion(reducedMotionQuery);
-        window.addEventListener('load', function() {
-            window.setTimeout(playForestCameo, 1200);
-            queueForestCameo();
-        });
-        window.addEventListener('resize', queueForestCameo);
+        window.addEventListener('load', updateStormState);
+        watchStormQuery(stormReducedQuery);
+        updateStormState();
     }
 
 })(jQuery);
