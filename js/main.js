@@ -279,4 +279,56 @@
         updateStormState();
     }
 
+    var certificateImages = document.querySelectorAll('.credential-local-card img');
+
+    if (certificateImages.length) {
+        var certificateLightbox = document.createElement('div');
+        certificateLightbox.className = 'certificate-lightbox';
+        certificateLightbox.setAttribute('role', 'dialog');
+        certificateLightbox.setAttribute('aria-modal', 'true');
+        certificateLightbox.setAttribute('aria-label', 'Vista ampliada de certificado');
+        certificateLightbox.innerHTML = '<button class="certificate-lightbox__close" type="button" aria-label="Cerrar vista ampliada">&times;</button><img class="certificate-lightbox__image" alt="">';
+        document.body.appendChild(certificateLightbox);
+
+        var certificateLightboxImage = certificateLightbox.querySelector('.certificate-lightbox__image');
+        var certificateLightboxClose = certificateLightbox.querySelector('.certificate-lightbox__close');
+
+        function closeCertificateLightbox() {
+            certificateLightbox.classList.remove('is-open');
+            certificateLightboxImage.removeAttribute('src');
+            certificateLightboxImage.setAttribute('alt', '');
+        }
+
+        function openCertificateLightbox(image) {
+            certificateLightboxImage.setAttribute('src', image.getAttribute('src'));
+            certificateLightboxImage.setAttribute('alt', image.getAttribute('alt') || 'Certificado ampliado');
+            certificateLightbox.classList.add('is-open');
+            certificateLightboxClose.focus();
+        }
+
+        document.addEventListener('click', function(event) {
+            var image = event.target.closest ? event.target.closest('.credential-local-card img') : null;
+
+            if (!image) {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+            openCertificateLightbox(image);
+        }, true);
+
+        certificateLightboxClose.addEventListener('click', closeCertificateLightbox);
+        certificateLightbox.addEventListener('click', function(event) {
+            if (event.target === certificateLightbox) {
+                closeCertificateLightbox();
+            }
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && certificateLightbox.classList.contains('is-open')) {
+                closeCertificateLightbox();
+            }
+        });
+    }
+
 })(jQuery);
